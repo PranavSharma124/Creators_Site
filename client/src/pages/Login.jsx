@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import PublicRoute from '../components/common/PublicRoute';
+import { useLocation } from 'react-router-dom';
 
 const Login = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
   const { login } = useAuth();
   // Form field state
   const [formData, setFormData] = useState({
@@ -14,8 +18,6 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState('');
-
-  const navigate = useNavigate();
 
   // Handlers will go here
   const handleChange = (e) => {
@@ -87,8 +89,11 @@ const handleSubmit = async (e) => {
     const data = await response.json();
 
     if (response.ok) {
-      login(data.user, data.token); // Use context function
-      navigate('/dashboard');
+      login(data.user, data.token);
+      
+      // Redirect to intended page or dashboard
+      const from = location.state?.from?.pathname || '/dashboard';
+      navigate(from, { replace: true });
     } else {
       // Login failed
       setApiError(data.message || 'Login failed. Please try again.');
@@ -129,6 +134,30 @@ if (isTokenExpired(token)) {
 
   return (
     <div style={containerStyle}>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        
+        <Route 
+          path="/login" 
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          } 
+        />
+        
+        <Route 
+          path="/register" 
+          element={
+            <PublicRoute>
+              <Register />
+            </PublicRoute>
+          } 
+        />
+        {/* Protected routes... */}
+      </Routes>
+
     <div style={formContainerStyle}>
       <h1 style={titleStyle}>Welcome Back</h1>
       <p style={subtitleStyle}>

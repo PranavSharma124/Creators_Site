@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import PublicRoute from '../components/common/PublicRoute';
 
 const Register = () => {
   // Form field states
@@ -144,6 +145,29 @@ const handleSubmit = async (e) => {
 
 return (
     <div style={containerStyle}>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        
+        <Route 
+          path="/login" 
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          } 
+        />
+        
+        <Route 
+          path="/register" 
+          element={
+            <PublicRoute>
+              <Register />
+            </PublicRoute>
+          } 
+        />
+        
+        {/* Protected routes... */}
+      </Routes>
     <div style={formContainerStyle}>
       <h1 style={titleStyle}>Create Your Account</h1>
       <p style={subtitleStyle}>
