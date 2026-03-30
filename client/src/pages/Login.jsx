@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import PublicRoute from '../components/common/PublicRoute';
 import { useLocation } from 'react-router-dom';
+import api from '../services/api';
 
 const Login = () => {
   const location = useLocation();
@@ -75,18 +76,11 @@ const handleSubmit = async (e) => {
 
   try {
     // Send login request
-    const response = await fetch('/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: formData.email.trim().toLowerCase(),
-        password: formData.password
-      })
+    const response = await api.post('/api/auth/login', {
+      email: formData.email.trim().toLowerCase(),
+      password: formData.password
     });
-
-    const data = await response.json();
+    const data = response.data;
 
     if (response.ok) {
       login(data.user, data.token);
