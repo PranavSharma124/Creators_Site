@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import CreatePost from './pages/CreatePost';
 
 function App() {
   return (
@@ -25,10 +26,10 @@ function App() {
               
               {/* Protected routes */}
               <Route 
-                path="/dashboard" 
+                path="/create" 
                 element={
                   <ProtectedRoute>
-                    <Dashboard />
+                    <CreatePost />
                   </ProtectedRoute>
                 } 
               />

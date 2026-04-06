@@ -1,6 +1,7 @@
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
+
 const Dashboard = () => {
   const { user, logout, loading } = useAuth();
   const navigate = useNavigate();
@@ -106,5 +107,7 @@ const infoStyle = {
   marginTop: '1rem',
   lineHeight: '2',
 };
+
+
 
 export default Dashboard;
